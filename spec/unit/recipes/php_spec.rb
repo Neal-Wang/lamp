@@ -6,7 +6,7 @@
 
 require 'spec_helper'
 
-describe 'lamp::default' do
+describe 'lamp::php' do
   context 'When all attributes are default, on Ubuntu 16.04' do
     let(:chef_run) do
       # for a complete list of available platforms and versions see:
@@ -15,14 +15,24 @@ describe 'lamp::default' do
       runner.converge(described_recipe)
     end
 
-    before do
-      stub_command("php -m | grep 'Phar'").and_return(false)
-      stub_command('test -f /var/run/mysqld/mysqld.sock').and_return(false)
-      stub_command('/usr/sbin/apache2 -t').and_return(false)
-    end
+    php_modules = %w(curl date gd json mbstring mysql xml fpm soap pear mcrypt mysql)
 
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
+    end
+
+    it 'should update apt' do
+      expect(chef_run).to update_apt_update('update_apt')
+    end
+
+    it 'should include php recipe' do
+      expect(chef_run).to include_recipe('php')
+    end
+
+    it "should install php modules #{php_modules.join(', ')}" do
+      php_modules.each do |mod|
+        expect(chef_run).to install_package("php-#{mod}")
+      end
     end
   end
 end

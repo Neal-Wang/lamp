@@ -6,7 +6,7 @@
 
 require 'spec_helper'
 
-describe 'lamp::default' do
+describe 'lamp::apache' do
   context 'When all attributes are default, on Ubuntu 16.04' do
     let(:chef_run) do
       # for a complete list of available platforms and versions see:
@@ -16,13 +16,19 @@ describe 'lamp::default' do
     end
 
     before do
-      stub_command("php -m | grep 'Phar'").and_return(false)
-      stub_command('test -f /var/run/mysqld/mysqld.sock').and_return(false)
       stub_command('/usr/sbin/apache2 -t').and_return(false)
     end
 
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
+    end
+
+    it 'should include apache2 recipe' do
+      expect(chef_run).to include_recipe('apache2')
+    end
+
+    it 'should include apache2::mod_php recipe' do
+      expect(chef_run).to include_recipe('apache2::mod_php')
     end
   end
 end

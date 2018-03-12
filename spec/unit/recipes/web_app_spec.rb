@@ -6,7 +6,7 @@
 
 require 'spec_helper'
 
-describe 'lamp::default' do
+describe 'lamp::web_app' do
   context 'When all attributes are default, on Ubuntu 16.04' do
     let(:chef_run) do
       # for a complete list of available platforms and versions see:
@@ -16,13 +16,21 @@ describe 'lamp::default' do
     end
 
     before do
-      stub_command("php -m | grep 'Phar'").and_return(false)
-      stub_command('test -f /var/run/mysqld/mysqld.sock').and_return(false)
       stub_command('/usr/sbin/apache2 -t').and_return(false)
     end
 
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
+    end
+
+    it 'should create /var/www/slimsample/public' do
+      expect(chef_run).to create_directory('/var/www/slimsample/public').with(
+        owner: 'www-data', group: 'www-data', recursive: true)
+    end
+
+    it 'should create file /var/www/slimsample/public/index.php if missing' do
+      expect(chef_run).to create_cookbook_file_if_missing('/var/www/slimsample/public/index.php').with(
+        owner: 'www-data', group: 'www-data')
     end
   end
 end

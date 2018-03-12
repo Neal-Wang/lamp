@@ -18,3 +18,10 @@ chef_version '>= 12.1' if respond_to?(:chef_version)
 # a Supermarket.
 #
 # source_url 'https://github.com/<insert_org_here>/lamp'
+
+depends 'php', '~> 5.0.0'
+depends 'composer', '~> 2.6.1'
+depends 'mysql', '~> 8.5.1'
+depends 'mysql2_chef_gem', '~> 2.1.0'
+depends 'database', '~> 6.1.1'
+depends 'apache2', '~> 5.0.1'
