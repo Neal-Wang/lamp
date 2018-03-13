@@ -42,7 +42,15 @@ describe 'lamp::database' do
     it 'should create and start mysql_service default' do
       expect(chef_run).to create_mysql_service('default').with(
         port: 3306, version: '5.7',
-        initial_root_password: 'ibportrnd153', action: [:create, :start])
+        initial_root_password: 'ibportrnd153',
+        run_user: 'mysql',
+        run_group: 'mysql',
+        action: [:create, :start])
+    end
+
+    it 'should create directory /var/run/mysqld' do
+      expect(chef_run).to create_directory('/var/run/mysqld').with(
+        owner: 'mysql', group: 'mysql', mode: '0755')
     end
 
     it "should create link /var/run/mysqld/mysqld.sock to #{socket}" do

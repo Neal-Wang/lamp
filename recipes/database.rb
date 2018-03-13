@@ -16,10 +16,18 @@ mysql_service node['lamp']['database']['instance_name'] do
   port node['lamp']['database']['port']
   version node['lamp']['database']['version']
   initial_root_password node['lamp']['database']['root_password']
+  run_user node['lamp']['database']['deploy_user']
+  run_group node['lamp']['database']['deploy_group']
   action [:create, :start]
 end
 
 socket = "/var/run/mysql-#{node['lamp']['database']['instance_name']}/mysqld.sock"
+
+directory '/var/run/mysqld' do
+  owner node['lamp']['database']['deploy_user']
+  group node['lamp']['database']['deploy_group']
+  mode '0755'
+end
 
 link '/var/run/mysqld/mysqld.sock' do
   to socket

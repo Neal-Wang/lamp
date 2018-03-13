@@ -6,6 +6,6 @@
 # found at http://inspec.io/docs/reference/resources/
 
 describe command('apache2ctl -S') do
-  its('exist_status') { should eq 0 }
+  its('exit_status') { should eq 0 }
   its('stdout') { should match /slimsample/ }
 end

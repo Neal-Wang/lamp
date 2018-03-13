@@ -5,16 +5,23 @@
 # The Inspec reference, with examples and extensive documentation, can be
 # found at http://inspec.io/docs/reference/resources/
 
-socket = '/var/run/mysql-default/mysqld.sock'
+socket = '/run/mysql-default/mysqld.sock'
 
 describe port(3306) do
   it { should be_listening }
 end
 
-describe service('mysqld') do
+describe service('mysql-default') do
   it { should be_installed }
   it { should be_enabled }
   it { should be_running }
+end
+
+describe directory('/var/run/mysqld') do
+  it { should exist }
+  its('owner') { should eq 'mysql' }
+  its('group') { should eq 'mysql' }
+  its('mode') { should eq 493 }
 end
 
 describe file('/var/run/mysqld/mysqld.sock') do

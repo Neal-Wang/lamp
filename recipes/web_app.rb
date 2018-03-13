@@ -22,6 +22,6 @@ web_app node['lamp']['web_app']['name'] do
   server_name node['lamp']['web_app']['server_name']
   docroot node['lamp']['web_app']['docroot']
   directory_index node['lamp']['web_app']['directory_index']
-  allow_override node['lamp']['web_app']['allow_override']
+  allow_override(node['lamp']['web_app']['allow_override'] ? 'All' : 'None')
   cookbook 'apache2'
 end

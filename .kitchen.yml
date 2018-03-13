@@ -19,6 +19,7 @@ suites:
   - name: default
     run_list:
       - recipe[lamp::default]
+      - recipe[lamp::web_app]
     verifier:
       inspec_tests:
         - test/smoke/default

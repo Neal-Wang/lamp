@@ -17,7 +17,7 @@ end
 
 describe command('php -m') do
   its('exit_status') { should eq 0 }
-  %w(curl date gd json mbstring mysql xml fpm soap pear mcrypt mysql).each do |mod|
+  %w(curl date gd json mbstring mysql xml mcrypt mysql).each do |mod|
   	its('stdout') { should match Regexp.new(mod, Regexp::IGNORECASE) }
   end
 end
