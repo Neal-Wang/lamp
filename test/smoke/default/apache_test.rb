@@ -13,3 +13,7 @@ describe apache do
   its('service') { should cmp 'apache2' }
   its('user') { should cmp 'www-data' }
 end
+
+describe command('a2query -c php7.0-cgi -q') do
+  its('exit_status') { should eq 0 }
+end
