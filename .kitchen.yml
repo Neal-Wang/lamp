@@ -24,3 +24,14 @@ suites:
       inspec_tests:
         - test/smoke/default
     attributes:
+      lamp:
+        web_app:
+          writable_dirs:
+            - cache
+            - tmp
+            - logs
+          writable_files:
+            - logs/app.log
+          deploy_key_type: ssh-rsa
+          deploy_key: AAAAB3NzaC1yc2EAAAADAQABAAABAQCfXeuJ8T6ASzJUC0x1VQctUH3Y66RW9iOtUo8pHNJ6hP2PmcKWzaNPkGFFzcwzny/c1lz/GJ44/ebJbBEu8r2RlwumAUBwKYzyrrbU0HeWvZflNd9ZjETYkfEl7YhuiD79WsnSxWjGzgRnBTYGe2GeinsuK3mTvoDfDt2gWCZpYai5rrPUOw+OFkeAvZSMKVTIiFY9wCkjgRfIU2swbXl1OPKIcV+/TDE0p2On9oH+cDFudscGsGBdIwExyvcxyYnWtBpFfeoMti+nIJH1JgKeoEdxnyslh5FOzlQkm+oM+KYf/f3Rg+bR40oduPrItWXwjV/aT+keOuvhr7t7f4af
+          deploy_key_comment: Admin@OPTI990-068
