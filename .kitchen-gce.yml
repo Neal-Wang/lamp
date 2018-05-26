@@ -1,0 +1,32 @@
+---
+driver:
+  name: gce
+  project: ds-2-203623
+  region: us-east4
+  zone: us-east4-a
+  machine_type: n1-standard-1
+
+provisioner:
+  name: chef_zero
+
+transport:
+  username: <%= ENV['USER'] %>
+  ssh_key: <%= ENV['SSH_KEY'] %>
+  port: 22
+
+platforms:
+  - name: ubuntu-16.04
+    driver:
+      image_project: ubuntu-os-cloud
+      image_family: ubuntu-1604-lts
+      metadata:
+        ssh-keys: <%= ENV['USER'] + ':' + IO.binread("#{ENV['SSH_KEY']}.pub").rstrip! %>
+
+suites:
+  - name: default
+    run_list:
+      - recipe[lamp::default]
+    verifier:
+      inspec_tests:
+        - test/smoke/default
+    attributes:
